@@ -1,0 +1,26 @@
+</<!doctype html>
+<html lang="en">
+<head>
+    <% include ../partials/head.ejs %>
+</head>
+<body class="container">
+
+    <header>
+        <% include ../partials/header.ejs %>
+    </header>
+
+    <main>
+        <div class="row">
+            <% grams.forEach(function (gram) { %>
+                <div class="instagram-pic col-sm-3">
+                    <a href="<% gram.link %>" target="_blank"></a>
+                </div>
+            })%>
+        </div>
+    </main>
+
+    <footer>
+        <% include ../partials/footer.ejs %>
+    </footer>
+</body>
+</html>

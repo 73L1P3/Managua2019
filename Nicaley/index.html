@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <!-- Compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <title>NicaLey</title>
+  </head>
+  <body class="grey lighten-3">
+    <nav class="z-depth-0 blue darken-4">
+      <div class="nav-wrapper container">
+        <a href="#" class="brand-logo">
+          <img
+            src="img/logo.svg"
+            alt=""
+            style="width: 50px; margin-top: 10px"
+          />NicaLey</a
+        >
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li class="admin" style="display: none;">
+            <a
+              href="#"
+              class="white-text modal-trigger"
+              data-target="modal-create"
+              >Crear Foro</a
+            >
+          </li>
+          <li class="logged-in" style="display: none;">
+            <a
+              href="#"
+              class="white-text modal-trigger"
+              data-target="modal-account"
+              >Cuenta</a
+            >
+          </li>
+          <li class="logged-in" style="display: none;">
+            <a href="#" class="white-text" id="logout">Salir</a>
+          </li>
+
+          <li class="logged-out" style="display: none;">
+            <a
+              href="#"
+              class="white-text modal-trigger"
+              data-target="modal-login"
+              >Ingresar</a
+            >
+          </li>
+          <li class="logged-out" style="display: none;">
+            <a
+              href="#"
+              class="white-text modal-trigger"
+              data-target="modal-signup"
+              >Crear Cuenta</a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Acciones del Admin -->
+    <form
+      class="center-align admin-actions admin"
+      style="margin: 40px auto; max-width: 300px; display:none;"
+    >
+      <input type="email" placeholder="User Email" id="admin-email" required />
+      <button class="btn-small yellow darken-2 z-depth-0">Crear Admin</button>
+    </form>
+
+    <!-- Creacion de Cuenta -->
+    <div id="modal-signup" class="modal">
+      <div class="modal-content">
+        <h4>Crear Cuenta</h4>
+        <br />
+        <form id="signup-form">
+          <div class="input-field">
+            <input type="text" id="signup-username" required />
+            <label for="signup-username">Nombre de Usuario</label>
+          </div>
+          <div class="input-field">
+            <input type="email" id="signup-email" required />
+            <label for="signup-email">Correo Electronico</label>
+          </div>
+          <div class="input-field">
+            <input type="password" id="signup-password" required />
+            <label for="signup-password">Contrasena (Mayor a 6 letras)</label>
+          </div>
+          <div class="input-field">
+            <input type="text" id="signup-bio" />
+            <label for="signup-bio">Bio de una sola Linea</label>
+          </div>
+          <button class="btn yellow darken-2 z-depth-0">Ingresar</button>
+          <p class="error pink-text center-align"></p>
+        </form>
+      </div>
+    </div>
+
+    <!-- Inicio de Seccion -->
+    <div id="modal-login" class="modal">
+      <div class="modal-content">
+        <h4>Inicio de Seccion</h4>
+        <br />
+        <form id="login-form">
+          <div class="input-field">
+            <input type="email" id="login-email" required />
+            <label for="login-email">Correo Electronico</label>
+          </div>
+          <div class="input-field">
+            <input type="password" id="login-password" required />
+            <label for="login-password">Contrasena</label>
+          </div>
+          <button class="btn yellow darken-2 z-depth-0">Ingresar</button>
+          <p class="error pink-text center-align"></p>
+        </form>
+      </div>
+    </div>
+
+    <!-- Cuenta -->
+    <div id="modal-account" class="modal">
+      <div class="modal-content center-align">
+        <h4>Detalles de la Cuenta</h4>
+        <br />
+        <div class="account-details"></div>
+      </div>
+    </div>
+
+    <!-- Crear Foro -->
+    <div id="modal-create" class="modal">
+      <div class="modal-content">
+        <h4>Crear Foro</h4>
+        <br />
+        <form id="create-form">
+          <div class="input-field">
+            <input type="text" id="Titulo" required />
+            <label for="Titulo">Titulo del Foro</label>
+          </div>
+          <div class="input-field">
+            <textarea
+              id="Contenido"
+              class="materialize-textarea"
+              required
+            ></textarea>
+            <label for="Contenido">Contenido del Foro</label>
+          </div>
+          <button class="btn yellow darken-2 z-depth-0">Crear</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Lista de Foros -->
+    <div class="container" style="margin-top: 40px;">
+      <ul class="collapsible z-depth-0 foro" style="border: none;"></ul>
+    </div>
+
+    <!-- Lista de Leyes -->
+    <div class="container" style="margin-top: 40px;">
+      <ul class="collapsible z-depth-0 ley" style="border: none;"></ul>
+    </div>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-functions.js"></script>
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: 'AIzaSyAQqg67FA2JCrlKuCc1Jq4ycxaIOR0hUkg',
+        authDomain: 'nicaley-9aea1.firebaseapp.com',
+        databaseURL: 'https://nicaley-9aea1.firebaseio.com',
+        projectId: 'nicaley-9aea1',
+        appId: '1:108305797625:web:12b6291dedc1950b'
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      //Auth & Firestore
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+      const functions = firebase.functions();
+    </script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="scripts/auth.js"></script>
+    <script src="scripts/index.js"></script>
+  </body>
+</html>
