@@ -1,7 +1,7 @@
 <h1>Proyectos Creados en Managua 2019</h1>
 
 <ol>
-    <li>Proyectos creados en tutoriales
+    <li><strong>Cursos</strong>
         <ul>
             <li>Navbar Animada</li>
             <li>Grid</li>
@@ -14,17 +14,17 @@
             <li>Node</li>
         </ul>
     </li>
-    <li>Firebase
+    <li><strong>Firebase</strong>
         <ul>
-            <li>Fire Store</li>
+            <li>Fire store</li>
         </ul>
     </li>
-    <li>Landing Web Pages
+    <li><strong>Landing Web Pages</strong>
         <ul>
             <li>Netflix Clone</li>
         </ul>
     </li>
-    <li>Mairala Corp Proyect</li>
-    <li>Nicaley (Firebase)</li>
-    <li>Ubicate (Leaflet & openstreetmap)</li>
+    <li><strong>Mairala Corp Proyect</strong></li>
+    <li><strong>Nicaley</strong> (Firebase)</li>
+    <li><strong>Ubicate</strong> (Leaflet & openstreetmap)</li>
 </ol>
