@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Ubicame</title>
+	<link rel="stylesheet" href="style/style.css">
+	<!--Librerias-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.0/dist/leaflet.css" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="routes/leaflet-routing-machine.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.css" rel="stylesheet" />
+ 	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+    <script src="routes/leaflet-routing-machine.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.0.8/dist/js/select2.min.js"></script>
+</head>
+<body>
+	<nav class="navbar navbar-expand-sm navbar-dark bg-primary sticky-top">
+	    <div class="container">
+	        <a class="navbar-brand" href="#main_section"><img src="img/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">Ubicame</a>
+	        <button class="navbar-toggler float-right" type="button" data-toggle="collapse" data-target="#navbar">
+	            <span class="navbar-toggler-icon"></span>
+	        </button>
+	        <div class="navbar-collapse collapse" id="navbar">
+	            <ul class="navbar-nav ml-auto">
+	                <li class="nav-item">
+	                    <a class="nav-link" href="#main_section">Mapa</a>
+	                </li>	                
+	                <li class="nav-item">
+	                    <a class="nav-link" href="#about_section">Nosotros</a>
+	                </li>
+	                <li class="nav-item">
+	                    <a class="nav-link" href="#">Contacto</a>
+	                </li>
+	            </ul>
+	        </div>
+	    </div>
+	</nav>
+
+	<div class="container">
+		<section id="main_section">
+			<div id="map" class="map"></div>
+			<button onclick="ubicame()" id="ubi" class="btn btn-outline-primary">Ubicame</button>
+			<select class="js-example-basic-single" name="Rutas" id="punto" style="width: 73.3%">
+				<option selected="selected">N/A</option>
+		        <option value="UCA" id="uca">UCA</option>
+		        <option value="MC">Metro Centro</option>
+		        <option value="EC">Enel Central</option>
+		        <option value="PJ">Parque Japones</option>
+		        <option value="Chele">Autolote El Chele</option>
+		        <option value="PellasA">Casa Pellas Altamira</option>
+		        <option value="UJ2">Universidad Juan Pablo II</option>
+		        <option value="ITC">Instituto Tecnologico Central</option>
+		        <option value="IDB">Igleia Don Bosco</option>
+		        <option value="CO">Cementerio Oriental</option>
+		        <option value="INETER">Instituto Nicaraguense de Estudios Territoriales</option>
+		        <option value="CMG">Colegio Maestro Gabriel</option>
+		        <option value="PaliR">Pali Redentor</option>
+		        <option value="Servigob">Servigob</option>
+		        <option value="MHCP">Ministerio de Hacienda y Credito Publico</option>
+		        <option value="PI">Plaza Inter</option>
+		        <option value="PAB">Pharaos Avenida Bolivar</option>
+		        <option value="CienN">100% Noticias</option>
+		        <option value="ENDM">Estadio Nacional Denis Martinez</option>
+		        <option value="Pricemart">Pricemart</option>
+		        <option value="HM">Nuevo Hospital Militar</option>
+		        <option value="Chaman">El Chaman</option>
+		        <option value="UCCE">Universidad Centroamericana de Ciencias Empresariales</option>
+		        <option value="IICM">Iglesia Inmaculado Corazon de Maria</option>
+		        <option value="CML">Supermercado La Colonia Moseñor Lescano</option>
+		        <option value="CNM">Centro Nacional de Dermatologia</option>
+		        <option value="IEA">Iglesia El Alfarero</option>
+		        <option value="PSA">Pali Santa Ana</option>
+		        <option value="Coop25F">Cooperativa de Taxis 25 de Febrero</option>
+		        <option value="PSS">Parque San Sebastian</option>
+		        <option value="Telcor">Telcor</option>
+		        <option value="Cinem">Cinemateca</option>
+		        <option value="Cmaiz">La Casa del Maiz</option>
+		        <option value="Catedral">Catedral Santiago de Managua</option>
+		        <option value="Palacio">Palacio Nacional de la Cultura</option>
+		        <option value="TeatroRD">Teatro Nacional Ruben Dario</option>
+		        <option value="IBR">Iglesia Bautista El Redentor</option>
+		        <option value="PlazaJ2">Plaza La Fe Juan Pablo II</option>
+		        <option value="Malecon">Malecon</option>
+		        <option value="PuertoSA">Puerto Salvador Allende</option>
+		        <option value="ENMAP">Escuela Nacional de Musica y Artes Plasticas</option>
+		        <option value="CJCM">Complejo Judicial Central Managua</option>
+		        <option value="ParqueLAVF">Parque Luis Alfonzo Velazquez Flores</option>
+		        <option value="Correos">Correos de Nicaragua</option>
+		        <option value="Arboretum">Arboretum</option>
+		        <option value="CSP">Cementerio San Pedro</option>
+		        <option value="INT">Instituto Nicaraguense de Turismo</option>
+		        <option value="UCN">UCN</option>
+		        <option value="ParqueEC">Parque El Carmen</option>
+		        <option value="ParqueAL">Parque Altamira</option>
+		        <option value="RCN">Registro Central Nicaragua</option>
+		        <option value="Enacal">Enacal</option>
+		        <option value="APSA">Atomic Pizza S.A</option>
+		        <option value="EMMEx">Embajada de Mexico</option>
+		        <option value="CA">Copa Airlines</option>
+		        <option value="CSJ">Clinica San Juan</option>
+		        <option value="Copinic">Copinic S.A</option>
+		        <option value="Lafise">Banco Lafise</option>
+		        <option value="HEMMP">Hospital Escuela Manolo Morales Peralta</option>
+		        <option value="CDDB">Centro Deportivo Don Bosco</option>
+		        <option value="PMRLM">Parque Manuel Rivera La Mascota</option>
+		        <option value="MCN">Monumento Cacique Nicarao</option>
+		        <option value="PCHCF">Parque Comandante Hugo Chavez Frias</option>
+		        <option value="CRub">Colegio Rubenia</option>
+		        <option value="PUrss">Parque URSS</option>
+		        <option value="RBH">Rotonda Bello Horizonte</option>
+		        <option value="CCP">Colegio de Contadores Publicos</option>
+		        <option value="CPCN">Colegio Publico de Ciudadanos</option>
+		        <option value="BacPE">Bac Plaza España</option>
+		        <option value="PanRaca">Panaderia Racachaca</option>
+		        <option value="HMBS">Heroes y Martires Batahola Sur</option>
+		        <option value="Sitel">Sitel Nicaragua</option>
+		        <option value="INISER">INISER</option>
+		        <option value="Walmart">Walmart</option>
+		        <option value="CEnacal">Campo Enacal</option>
+		        <option value="Eguana">El Guanacaste</option>
+		        <option value="C12">Canal 12</option>
+		        <option value="PuenteEE">Puente el eden</option>
+		        <option value="PuenteEP">Puente el paraisito</option>
+		        <option value="PDH"> P del H</option>
+		        <option value="CIR">Compañia de Importaciones y Representaciones, S. A.</option>
+		        <option value="IADSD">Iglesia Adventista del Séptimo Día, El Paraisito</option>
+		        <option value="VSS">Valeria salon y spa</option>
+		        <option value="TG">TecnoGamer</option>
+		        <option value="BP">Bomberos Pizza</option>
+		        <option value="CTen">Colegio tenderi</option>
+		        <option value="LitoX">Litografia xolotlan</option>
+		        <option value="LabCN">Laboratorio clinico nicaraguense</option>
+		        <option value="TCortez">Taller cortez</option>
+		        <option value="END">El nuevo diario</option>
+		        <option value="DU">Distribuidora la universal carretera norte</option>
+		        <option value="BanproSL">BANPRO sucural san luis</option>
+		        <option value="CasaP">La casa del perno</option>
+		        <option value="TendeE">Tenderi Este</option>
+		        <option value="TendeO">Tenderi Oeste</option>
+		        <option value="ParqueDor">Parque el dorado</option>
+		        <option value="PRLP">Parque Rigoberto Lopez Perez</option>
+		        <option value="CLeos">Colegio Leonardo Sepulveda</option>
+		        <option value="MerPeri">Mercado el periferico</option>
+		        <option value="ICDS">Iglesia camino de santidad</option>
+		        <option value="CSLDM">Colegio Santa Luisa de marillac</option>
+		        <option value="SumElec">Suministros electricos</option>
+		        <option value="PanDJ">Panaderia Don Juan</option>
+		        <option value="HospiCA">Hospital Cruz azul</option>
+		        <option value="ParqueJD">Parque Jorge Dimitrov</option>
+		        <option value="CCR">Colegio cristo rey</option>
+		        <option value="CECNA">CECNA</option>
+		        <option value="UNIJAR">UNIJAR</option>
+		        <option value="ESanL">Estadio San Luis</option>
+		        <option value="PSL">Parque San Luis</option>
+		        <option value="ULAM">ULAM</option>
+			</select>	
+		</section>
+
+		<section id="about_section">
+			<h1>Nosotros</h1>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum optio sed laborum in magnam unde nostrum perferendis consectetur adipisci temporibus quaerat vel, dicta ab tenetur quod rerum, expedita ipsum explicabo inventore, earum. Iste assumenda, earum inventore tenetur modi consectetur, tempore et delectus distinctio deleniti minus.</p>
+
+			<div id="carousel" class="carousel slide" data-ride="carousel">
+				<ol class="carousel-indicators">
+					<li data-target="#carousel" data-slide-to="1"></li>
+					<li data-target="#carousel" data-slide-to="0" class="active"></li>
+					<li data-target="#carousel" data-slide-to="2"></li>
+				</ol>
+				<div class="carousel-inner">
+					<div class="carousel-item active">
+						<img src="img/mapa.jpg" class="d-block w-100" alt="...">
+						<div class="carousel-caption d-none d-md-block">
+					  		<h5>First slide label</h5>
+					  		<p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+						</div>
+					</div>
+					<div class="carousel-item">
+						<img src="img/bus.jpg" class="d-block w-100" alt="...">
+						<div class="carousel-caption d-none d-md-block">
+						  <h5>Second slide label</h5>
+						  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+						</div>
+					</div>
+					<div class="carousel-item">
+						<img src="img/estudiantes.jpg" class="d-block w-100" alt="...">
+						<div class="carousel-caption d-none d-md-block">
+						  <h5>Third slide label</h5>
+						  <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+						</div>
+					</div>
+				</div>
+				<a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="sr-only">Previous</span>
+				</a>
+				<a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="sr-only">Next</span>
+				</a>
+			</div>
+		</section>
+	</div>
+	
+	<!-- Scrips-->
+	<script>
+		var k;
+		var lugares = {
+            uca: {
+                lat: 12.125171,
+                lng: -86.271945,
+                id: 'UCA',
+                ruta: '103 - 114 - 117 - 119 -110 - 120 - 102'
+            },
+            mc: {
+                lat: 12.127577,
+                lng: -86.264811,
+                id: 'Metro_Centro'
+            },
+            ec: {
+                lat: 12.124692, 
+                lng: -86.275626,
+                id:'Enel_Central'
+            },
+            pj: {
+				lat: 12.125269, 
+				lng: -86.260519,
+				id:' Parque_Japones '
+			},
+			chele: {
+				lat: 12.126108, 
+				lng: -86.255713,
+				id:' Auto_Lote_El_Chele '
+			},
+			pellasa: {
+				lat: 12.124765, 
+				lng: -86.253106,
+				id:" Casa_Pellas_Altamira "
+			},
+			uj2: {
+				lat: 12.124398, 
+				lng: -86.248171,
+				id:' Universidad_Juan_pablo_II '
+			},
+			itc: {
+				lat: 12.121440, 
+				lng: -86.243461,
+				id:' Instituto_Tecnologico_Central'
+			},
+				idb: {			
+					lat: 12.130944, 
+				lng: -86.240875,
+				id:' Iglesia_Don_Bosco '
+			},
+			co: {
+				lat: 12.139922, 
+				lng: -86.236841,
+				id:' Cementerio_Oriental '
+			},
+			ineter: {
+				lat:  12.149089,
+				lng: -86.247945,
+				id:' Instituto_Nicaraguense_De_Estudios_Territoriales '
+			},
+			cmg: {
+				lat:  12.147023,
+				lng: -86.247806,
+				id:' Colegio_Maestro_Gabriel '
+			},
+			palir: {
+				lat:  12.144726,
+				lng: -86.268030,
+				id:' Pali_Redentor '
+			},
+			servigob: {
+				lat:  12.149289,
+				lng: -86.273963,
+				id:' Servi_gob '
+			},
+			mhcp: {
+				lat:  12.151103,
+				lng: -86.272976,
+				id:' Ministerio_De_Hacienda_Y_Credito_Publico '
+			},
+			pi: {
+				lat:  12.144527,
+				lng: -86.274134,
+				id:' Plaza_Inter '
+			},
+			pab: {
+				lat:  12.142765,
+				lng: -86.275540,
+				id:' Pharaos_Avenida_Bolivar '
+			},
+			cienn: {
+				lat:  12.139702,
+				lng: -86.275658,
+				id:' 100%_Noticias '
+			},
+			endm: {
+				lat:  12.134374,
+				lng: -86.269382,
+				id:' Estadio_Nacional_Denis_Martinez '
+			},
+			pricemart: {
+				lat:  12.134195,
+				lng: -86.278007,
+				id:' Pricemart '
+			},
+			hm: {
+				lat:  12.132979,
+				lng: -86.278426,
+				id:' Nuevo_Hospital_Militar '
+			},
+			chaman: {
+				lat:  12.134038,
+				lng: -86.272858,
+				id:' El_Chaman '
+			},
+			ucce: {
+				lat:  12.139723,
+				lng: -86.299766,
+				id:' Universidad_Centroamericana_De_Ciencias_Empresariales '
+			},
+			iicm: {
+				lat:  12.145282,
+				lng: -86.294004,
+				id:' Iglesia_Inmaculado_Corazon_De_Maria '
+			},
+			cml: {
+				lat:  12.145366,
+				lng: -86.297051,
+				id:" Supermercado_La_union_Monseñor_Lezcano "
+			},
+			cnd: {
+				lat:  12.147778,
+				lng: -86.298682,
+				id:' Centro_Nacional_De_Dermatologia '
+			},
+			iea: {
+				lat:  12.151009,
+				lng: -86.302523,
+				id:' Iglesia_El_Alfarero '
+			},
+			psa: {
+				lat:  12.157155,
+				lng: -86.286623,
+				id:' Pali_Santa_Ana '
+			},
+			coop25f: {
+				lat:  12.157103,
+				lng: -86.281677,
+				id:' Cooperativa_De_Taxis_25_De_Febrero '
+			},
+			pss: {
+				lat:  12.155456,
+				lng: -86.279263,
+				id:' Parque_San_Sebastian '
+			},
+			telcor: {
+				lat:  12.154984,
+				lng: -86.274167,
+				id:' Telcor '
+			},
+			cinem: {
+				lat:  12.154942,
+				lng: -86.272804,
+				id:' Cinemateca '
+			},
+			cmaiz: {
+				lat:  12.157176,
+				lng: -86.273673,
+				id:' La_Casa_Del_Maiz '
+			},
+			catedral: {
+				lat:  12.156316,
+				lng: -86.271688,
+				id:' Catedral '
+			},
+			palacio: {
+				lat:  12.155529,
+				lng: -86.272192,
+				id:' Palacio_Nacional_De_La_Cultura '
+			},
+			teatrord: {
+				lat:  12.158424,
+				lng: -86.272611,
+				id:' Teatro_Ruben_Dario '
+			},
+			ibr: {
+				lat:  12.160029,
+				lng: -86.279649,
+				id:' Iglesia_Bautista_El_Redentor '
+			},
+			plazaj2: {
+				lat:  12.159200,
+				lng: -86.274327 ,
+				id:' Plaza_La_Fe_Juan_Pablo_II '
+			},
+			malecon: {
+				lat:  12.160658,
+				lng: -86.273040,
+				id:' Malecon '
+			},
+			puertosa: {
+				lat:  12.162514,
+				lng: -86.275357 ,
+				id:' Puerto_Salvador_Allende '
+			},
+			enmap: {
+				lat:  12.155802,
+				lng: -86.264446,
+				id:' Escuela_Nacional_De_Musica_Y_Artes_Plasticas '
+			},
+			cjcm: {
+				lat:  12.153553,
+				lng: -86.268709,
+				id:' Complejo_Judicial_Central_Managua '
+			},
+			parquelavf: {
+				lat:  12.151592,
+				lng: -86.270726,
+				id:' Parque_Luis_Alfonso_Velasquez_Flores '
+			},
+			correos: {
+				lat:  12.155776,
+				lng: -86.274514,
+				id:' Correos_De_Nicaragua '
+			},
+			arboretum: {
+				lat: 12.147910, 
+				lng: -86.274052,
+				id:' Arboretum '
+			},
+			csp: {
+				lat:  12.147218,
+				lng: -86.275855,
+				id:' Cementerio_San_pedro '
+			},
+			int: {
+				lat:  12.142875,
+				lng: -86.276005,
+				id:' Instituto_Nicaraguense_De_Turismo '
+			},
+			ucn: {
+				lat:  12.144585,
+				lng: -86.284813,
+				id:' UCN '
+			},
+			parqueec: {
+				lat:  12.143715,
+				lng: -86.285843,
+				id:' Parque_El_Carmen '
+			},
+			parqueal: {
+				lat:  12.123704,
+				lng: -86.254911,
+				id:' Parque_Altamira '
+			},
+			rcn: {
+				lat:  12.124638,
+				lng: -86.257979,
+				id:' Registro_Central_De_Nicaragua '
+			},
+			enacal: {
+				lat:  12.120778,
+				lng: -86.258172,
+				id:' Enacal '
+			},
+			apsa: {
+				lat:  12.117830,
+				lng: -86.256573,
+				id:' Atomic_Pizza_S_A '
+			},
+			emmex: {
+				lat:  12.119687,
+				lng: -86.260200,
+				id:' EMbajada_De_Mexico '
+			},
+			ca: {
+				lat:  12.121176,
+				lng: -86.263601,
+				id:' Copa_Airlines '
+			},
+			csj: {
+				lat:  12.123967,
+				lng: -86.270778,
+				id:' Clinica_San_Juan '
+			},
+			copinic: {
+				lat:  12.123673,
+				lng: -86.252979,
+				id:' Copinic_S_A '
+			},
+			lafise: {
+				lat:  12.122907,
+				lng: -86.249031,
+				id:' Banco_Lafise '
+			},
+
+			hemmp: {
+				lat:  12.122393,
+				lng: -86.245780,
+				id:' Hospital_Escuella_Manolo_Morales_Peralta '
+			},
+			cddb: {
+				lat:  12.128246, 
+				lng: -86.242465,
+				id:' Centro_Deportivo_Don_Bosco '
+			},
+			pmrlm: {
+				lat:  12.124955,
+				lng: -86.237963,
+				id:' Parque_Manuel_Rivera_La_Mascota '
+			},
+			mcn: {
+				lat:  12.127766,
+				lng: -86.236354,
+				id:' Monuento_Cacique_Nicarao '
+			},
+			pchcf: {
+				lat:  12.126979,
+				lng: -86.232159,
+				id:' Parque_Comandante_Hugo_Chavez_Frias '
+			},
+			crub: {
+				lat:  12.131143,
+				lng: -86.229552,
+				id:' Colegio_Rubenia '
+			},
+			purss: {
+				lat:  12.133524,
+				lng:  -86.231601,
+				id:' Parque_URSS '
+			},
+			rbh: {
+				lat:  12.145870,
+				lng: -86.233998,
+				id:' Rotonda_Bello_Horizonte '
+			},
+			ccp: {
+				lat:  12.147582,
+				lng: -86.234261,
+				id:' Colegio_De_Contadores_Publicos '
+			},
+			cpcn: {
+				lat:  12.147448,
+				lng: -86.231810,
+				id:' Colegio_Publico_De_Ciudadanos '
+			},
+			bacpe: {
+				lat:  12.133578,
+				lng: -86.282150,
+				id:' BAC_Plaza_España '
+			},
+			panraca: {
+				lat:  12.137990,
+				lng: -86.291500,
+				id:' Panaderia_Racachaca '
+			},
+			hmbs: {
+				lat:  12.137324,
+				lng: -86.299165,
+				id:' Heroes_Y_Martires_Batahola_Sur '
+			},
+			sitel: {
+				lat:  12.137874,
+				lng: -86.301186,
+				id:' Sitel_Nicaragua '
+			},
+			iniser: {
+				lat:  12.139027,
+				lng: -86.300929,
+				id:' INISER '
+			},
+			walmart: {
+				lat:  12.140160,
+				lng: -86.295371,
+				id:' Walmart '
+			},
+			cenacal: {
+				lat:  12.142510,
+				lng: -86.307216,
+				id:' Campo_Enacal '
+			},
+			eguana: {
+				lat:  12.141041,
+				lng: -86.294878,
+				id:' El_Guanacaste '
+			},
+			c12: {
+				lat:  12.139678,
+				lng:  -86.285522,
+				id:' Canal_12 '
+			},
+			puenteee: {
+				lat: 12.141054,
+				lng: -86.242557 ,
+				id:' Puente_el_eden '
+			},
+			puenteep: {
+				lat: 12.139272,
+				lng: -86.246816 ,
+				id:' Puente_el_paraisito '
+			},
+			pdh: {
+				lat: 12.141966,
+				lng: -86.249753,
+				id:'P_del_H  '
+			},
+			cir: {
+				lat: 12.141811,
+				lng: -86.248942 ,
+				id:'Compañia_de_Importaciones_y_Representaciones'
+			},
+			iadsd: {
+				lat: 12.141575,
+				lng: -86.249438 ,
+				id:'Iglesia_Adventista_del_Séptimo Día_El_Paraisito '
+			},
+			vss: {
+				lat: 12.140555,
+				lng: -86.249472 ,
+				id:' Valeria_salon_Y_spa '
+			},
+			tg: {
+				lat: 12.139667,
+				lng: -86.250740 ,
+				id:'Tecno_Gamer  '
+			},
+			bp: {
+				lat: 12.143653,
+				lng: -86.246211 ,
+				id:' Bomberos_Pizza '
+			},
+			cten: {
+				lat: 12.144561,
+				lng: -86.248622 ,
+				id:'Colegio_tenderi  '
+			},
+			litox: {
+				lat: 12.145239,
+				lng: -86.251127 ,
+				id:' Litografia_xolotlan '
+			},
+			labcn: {
+				lat:  12.142094,
+				lng: -86.251278 ,
+				id:' Laboratorio_clinico_nicaraguense '
+			},
+			tcortez: {
+				lat: 12.141377,
+				lng:  -86.251334 ,
+				id:' Taller_Cortez '
+			},
+			end: {
+				lat:  12.151793,
+				lng: -86.236134 ,
+				id:'El_nuevo_diario '
+			},
+			du: {
+				lat: 12.151045,
+				lng: -86.237198 ,
+				id:' Distribuidora_la_universal_carretera_norte '
+			},
+			banprosl: {
+				lat: 12.151963,
+				lng: -86.242080 ,
+				id:'BANPRO_sucural_san_luis '
+			},
+			casap: {
+				lat: 12.152753,
+				lng: -86.250422,
+				id:' La_casa_del_perno '
+			},
+			tendee: {
+				lat: 12.145284,
+				lng: -86.249827 ,
+				id:' Tenderi_Este '
+			},
+			tendeo: {
+				lat: 12.145537,
+				lng: -86.249312 ,
+				id:'Tenderi_Oeste '
+			},
+			parquedor: {
+				lat: 12.134575,
+				lng: -86.247493 ,
+				id:' Parque_el_dorado '
+			},
+			prlp: {
+				lat: 12.137724,
+				lng:  -86.255623 ,
+				id:'Parque_Rigoberto_Lopez_Perez  '
+			},
+			cleos: {
+				lat: 12.137240,
+				lng: -86.255213 ,
+				id:' Colegio_Leonardo_Sepulveda '
+			},
+			merperi: {
+				lat: 12.139052,
+				lng: -86.238180 ,
+				id:' Mercado_el_periferico '
+			},
+			icds: {
+				lat: 12.142247,
+				lng: -86.237853 ,
+				id:' Iglesia_Camino_de_santidad '
+			},
+			csldm: {
+				lat: 12.144585,
+				lng: -86.244196 ,
+				id:'Colegio_Santa_Luisa_de_marillac '
+			},
+			sumelec: {
+				lat: 12.141868,
+				lng: -86.246757 ,
+				id:' Suministros_electricos '
+			},
+			pandj: {
+				lat: 12.139919,
+				lng: -86.245909 ,
+				id:' Panaderia_Don_Juan '
+			},
+			hospica: {
+				lat: 12.140209,
+				lng: -86.265607 ,
+				id:' Hospital_Cruz_azul'
+			},
+			parquejd: {
+				lat: 12.137221,
+				lng: -86.260863 ,
+				id:' Parque_Jorge_Dimitrov '
+			},
+			ccr: {
+				lat: 12.137108, 
+				lng: -86.259553 ,
+				id:' Colegio_cristo_rey '
+			},
+			cecna: {
+				lat: 12.149043,
+				lng: -86.245921,
+				id:' CECNA  '
+			},
+			unijar: {
+				lat: 12.148128,
+				lng: -86.243354,
+				id:' UNIJAR  '
+			},
+			esanl: {
+				lat: 12.149404,
+				lng: -86.241823,
+				id:' Estadio San_Luis'
+			},
+	 		psl: {
+				lat:  12.148913,
+				lng: -86.244785,
+				id:'  Parque_San_Luis'
+			},
+			ulam: {
+				lat:  12.152706,
+				lng:  -86.250146,
+				id:' ULAM'
+			},
+        };
+		//Marcadores
+		var puntos = L.layerGroup();
+		L.marker([12.125171, -86.271945]).bindPopup("UCA").addTo(puntos),
+		L.marker([12.127577, -86.264811]).bindPopup('Metro Centro').addTo(puntos),
+		L.marker([12.124692, -86.275626]).bindPopup('Enel Central').addTo(puntos),
+		L.marker([12.125269, -86.260519]).bindPopup('Parque Japones').addTo(puntos),
+		L.marker([12.126108, -86.255713]).bindPopup('Autolote El Chele').addTo(puntos),
+		L.marker([12.124765, -86.253106]).bindPopup('Casa Pellas Altamira').addTo(puntos),
+		L.marker([12.124398, -86.248171]).bindPopup('Universidad Juan Pablo II').addTo(puntos),
+		L.marker([12.121440, -86.243461]).bindPopup('Instituto Tecnologico Central').addTo(puntos),
+		L.marker([12.130944, -86.240875]).bindPopup('Igleia Don Bosco').addTo(puntos),
+		L.marker([12.139922, -86.236841]).bindPopup('Cementerio Oriental').addTo(puntos),
+		L.marker([12.149089, -86.247945]).bindPopup('Instituto Nicaraguense de Estudios Territoriales').addTo(puntos),
+		L.marker([12.147023, -86.247806]).bindPopup('Colegio Maestro Gabriel').addTo(puntos),
+		L.marker([12.144726, -86.268030]).bindPopup('Pali Redentor').addTo(puntos),
+		L.marker([12.149289, -86.273963]).bindPopup('Servigob').addTo(puntos),
+		L.marker([12.151103, -86.272976]).bindPopup('Ministerio de Hacienda y Credito Publico').addTo(puntos),
+		L.marker([12.144527, -86.274134]).bindPopup('Plaza Inter').addTo(puntos),
+		L.marker([12.142765, -86.275540]).bindPopup('Pharaos Avenida Bolivar').addTo(puntos),
+		L.marker([12.139702, -86.275658]).bindPopup('100% Noticias').addTo(puntos),
+		L.marker([12.134374, -86.269382]).bindPopup('Estadio Nacional Denis Martinez').addTo(puntos),
+		L.marker([12.134195, -86.278007]).bindPopup('Pricemart').addTo(puntos),
+		L.marker([12.132979, -86.278426]).bindPopup('Nuevo Hospital Militar').addTo(puntos),
+		L.marker([12.134038, -86.272858]).bindPopup('El Chaman').addTo(puntos),
+		L.marker([12.139723, -86.299766]).bindPopup('Universidad Centroamericana de Ciencias Empresariales').addTo(puntos),
+		L.marker([12.145282, -86.294004]).bindPopup('Iglesia Inmaculado Corazon de Maria').addTo(puntos),
+		L.marker([12.145366, -86.297051]).bindPopup('Supermercado La Colonia Moseñor Lescano').addTo(puntos),
+		L.marker([12.147778, -86.298682]).bindPopup('Centro Nacional de Dermatologia').addTo(puntos),
+		L.marker([12.151009, -86.302523]).bindPopup('Iglesia El Alfarero').addTo(puntos),
+		L.marker([12.157155, -86.286623]).bindPopup('Pali Santa Ana').addTo(puntos),
+		L.marker([12.157103, -86.281677]).bindPopup('Cooperativa de Taxis 25 de Febrero').addTo(puntos),
+		L.marker([12.155456, -86.279263]).bindPopup('Parque San Sebastian').addTo(puntos),
+		L.marker([12.154984, -86.274167]).bindPopup('Telcor').addTo(puntos),
+		L.marker([12.154942, -86.272804]).bindPopup('Cinemateca').addTo(puntos),
+		L.marker([12.157176, -86.273673]).bindPopup('La Casa del Maiz').addTo(puntos),
+		L.marker([12.156316, -86.271688]).bindPopup('Catedral Santiago de Managua').addTo(puntos),
+		L.marker([12.155529, -86.272192]).bindPopup('Palacio Nacional de la Cultura').addTo(puntos),
+		L.marker([12.158424, -86.272611]).bindPopup('Teatro Nacional Ruben Dario').addTo(puntos),
+		L.marker([12.160029, -86.279649]).bindPopup('Iglesia Bautista El Redentor').addTo(puntos),
+		L.marker([12.159200, -86.274327]).bindPopup('Plaza La Fe Juan Pablo II').addTo(puntos),
+		L.marker([12.160658, -86.273040]).bindPopup('Malecon').addTo(puntos),
+		L.marker([12.162514, -86.275357]).bindPopup('Puerto Salvador Allende').addTo(puntos),
+		L.marker([12.155802, -86.264446]).bindPopup('Escuela Nacional de Musica y Artes Plasticas').addTo(puntos),
+		L.marker([12.153553, -86.268709]).bindPopup('Complejo Judicial Central Managua').addTo(puntos),
+		L.marker([12.151592, -86.270726]).bindPopup('Parque Luis Alfonzo Velazquez Flores').addTo(puntos),
+		L.marker([12.155776, -86.274514]).bindPopup('Correos de Nicaragua').addTo(puntos),
+		L.marker([12.147910, -86.274052]).bindPopup('Arboretum').addTo(puntos),
+		L.marker([12.147218, -86.275855]).bindPopup('Cementerio San Pedro').addTo(puntos),
+		L.marker([12.142875, -86.276005]).bindPopup('Instituto Nicaraguense de Turismo').addTo(puntos),
+		L.marker([12.144585, -86.284813]).bindPopup('UCN').addTo(puntos),
+		L.marker([12.143715, -86.285843]).bindPopup('Parque El Carmen').addTo(puntos),
+		L.marker([12.123704, -86.254911]).bindPopup('Parque Altamira').addTo(puntos),
+		L.marker([12.124638, -86.257979]).bindPopup('Registro Central Nicaragua').addTo(puntos),
+		L.marker([12.120778, -86.258172]).bindPopup('Enacal').addTo(puntos),
+		L.marker([12.117830, -86.256573]).bindPopup('Atomic Pizza S.A').addTo(puntos),
+		L.marker([12.119687, -86.260200]).bindPopup('Embajada de Mexico').addTo(puntos),
+		L.marker([12.121176, -86.263601]).bindPopup('Copa Airlines').addTo(puntos),
+		L.marker([12.123967, -86.270778]).bindPopup('Clinica San Juan').addTo(puntos),
+		L.marker([12.123673, -86.252979]).bindPopup('Copinic S.A').addTo(puntos),
+		L.marker([12.122907, -86.249031]).bindPopup('Banco Lafise').addTo(puntos),
+		L.marker([12.122393, -86.245780]).bindPopup('Hospital Escuela Manolo Morales Peralta').addTo(puntos),
+		L.marker([12.128246, -86.242465]).bindPopup('Centro Deportivo Don Bosco').addTo(puntos),
+		L.marker([12.124955, -86.237963]).bindPopup('Parque Manuel Rivera La Mascota').addTo(puntos),
+		L.marker([12.127766, -86.236354]).bindPopup('Monumento Cacique Nicarao').addTo(puntos),
+		L.marker([12.126979, -86.232159]).bindPopup('Parque Comandante Hugo Chavez Frias').addTo(puntos),
+		L.marker([12.131143, -86.229552]).bindPopup('Colegio Rubenia').addTo(puntos),
+		L.marker([12.133524, -86.231601]).bindPopup('Parque URSS').addTo(puntos),
+		L.marker([12.145870, -86.233998]).bindPopup('Rotonda Bello Horizonte').addTo(puntos),
+		L.marker([12.147582, -86.234261]).bindPopup('Colegio de Contadores Publicos').addTo(puntos),
+		L.marker([12.147448, -86.231810]).bindPopup('Colegio Publico de Ciudadanos').addTo(puntos),
+		L.marker([12.133578, -86.282150]).bindPopup('Bac Plaza España').addTo(puntos),
+		L.marker([12.137990, -86.291500]).bindPopup('Panaderia Racachaca').addTo(puntos),
+		L.marker([12.137324, -86.299165]).bindPopup('Heroes y Martires Batahola Sur').addTo(puntos),
+		L.marker([12.137874, -86.301186]).bindPopup('Sitel Nicaragua').addTo(puntos),
+		L.marker([12.139027, -86.300929]).bindPopup('INISER').addTo(puntos),
+		L.marker([12.140160, -86.295371]).bindPopup('Walmart').addTo(puntos),
+		L.marker([12.142510, -86.307216]).bindPopup('Campo Enacal').addTo(puntos),
+		L.marker([12.141041, -86.294878]).bindPopup('El Guanacaste').addTo(puntos),
+		L.marker([12.139678, -86.285522]).bindPopup('Canal 12').addTo(puntos);
+		L.marker([12.141054, -86.242557]).bindPopup('Puente el Eden').addTo(puntos),
+		L.marker([12.139272, -86.246816]).bindPopup('Puente el Paraisito').addTo(puntos),
+		L.marker([12.141966, -86.249753]).bindPopup('P del H').addTo(puntos),
+		L.marker([12.141811, -86.248942]).bindPopup('Compañia de Importaciones y Representaciones, S. A.').addTo(puntos),
+		L.marker([12.141575, -86.249438]).bindPopup('Iglesia Adventista del Séptimo Día, El Paraisito').addTo(puntos),
+		L.marker([12.140555, -86.249472]).bindPopup('Valeria salon y spa').addTo(puntos),
+		L.marker([12.139667, -86.250740]).bindPopup('TecnoGamer ').addTo(puntos),
+		L.marker([12.143653, -86.246211]).bindPopup('Bomberos Pizza').addTo(puntos),
+		L.marker([12.144561, -86.248622]).bindPopup('Colegio tenderi').addTo(puntos),
+		L.marker([12.145239, -86.251127]).bindPopup('Litografia xolotlan').addTo(puntos),
+		L.marker([12.142094, -86.251278]).bindPopup('Laboratorio clinico nicaraguense').addTo(puntos),
+		L.marker([12.141377, -86.251334]).bindPopup('Taller cortez').addTo(puntos),
+		L.marker([12.151793, -86.236134]).bindPopup('El nuevo diario').addTo(puntos),
+		L.marker([12.151045, -86.237198]).bindPopup('Distribuidora la universal carretera norte').addTo(puntos),
+		L.marker([12.151963, -86.242080]).bindPopup('BANPRO sucural san luis').addTo(puntos),
+		L.marker([12.152753, -86.250422]).bindPopup('La casa del perno').addTo(puntos),
+		L.marker([12.145284, -86.249827]).bindPopup('Tenderi Este').addTo(puntos),
+		L.marker([12.145537, -86.249312]).bindPopup('Tenderi Oeste').addTo(puntos),
+		L.marker([12.134575, -86.247493]).bindPopup('Parque el dorado').addTo(puntos),
+		L.marker([12.137724, -86.255623]).bindPopup('Parque Rigoberto Lopez Perez').addTo(puntos),
+		L.marker([12.137240, -86.255213]).bindPopup('Colegio Leonardo Sepulveda').addTo(puntos),
+		L.marker([12.139052, -86.238180]).bindPopup('Mercado el periferico').addTo(puntos),
+		L.marker([12.142247, -86.237853]).bindPopup('Iglesia camino de santidad').addTo(puntos),
+		L.marker([12.144585, -86.244196]).bindPopup('Colegio Santa Luisa de marillac').addTo(puntos),
+		L.marker([12.141868, -86.246757]).bindPopup('Suministros electricos').addTo(puntos),
+		L.marker([12.139919, -86.245909]).bindPopup('Panaderia Don Juan').addTo(puntos),
+		L.marker([12.140209, -86.265607]).bindPopup('Hospital Cruz azul').addTo(puntos),
+		L.marker([12.137221, -86.260863]).bindPopup('Parque Jorge Dimitrov').addTo(puntos),
+		L.marker([12.137108, -86.259553]).bindPopup('Colegio cristo rey').addTo(puntos),
+		L.marker([12.149043, -86.245921]).bindPopup('CECNA ').addTo(puntos),
+		L.marker([12.148128, -86.243354]).bindPopup('UNIJAR ').addTo(puntos),
+		L.marker([12.149404, -86.241823]).bindPopup('Estadio San Luis').addTo(puntos),
+		L.marker([12.148913, -86.244785]).bindPopup('Parque San Luis').addTo(puntos),
+		L.marker([12.152706, -86.250146]).bindPopup('ULAM ').addTo(puntos);
+		//fin Marcadores
+
+		// Iconos de paradas
+		var icon = new L.Icon({
+		  iconUrl: 'https://image.flaticon.com/icons/svg/854/854866.svg',
+		  iconSize: [50, 50],
+		  iconAnchor: [25, 50]
+		});
+
+		var rutas = L.layerGroup();
+		L.marker([12.125171, -86.271945], {icon: icon}).bindPopup('103 - 114 - 117 - 119 -110 - 120 -102').addTo(rutas);
+    	L.marker([12.127577, -86.264811], {icon: icon}).bindPopup('103 - 114 - 110 - 102').addTo(rutas);
+        L.marker([12.127577, -86.264811], {icon: icon}).bindPopup(' 103 - 114 - 168 - 119 -111  ').addTo(rutas);
+        L.marker([12.124692, -86.275626], {icon: icon}).bindPopup(' 103 - 110 - 120 - 114 -119 ').addTo(rutas);
+        L.marker([12.125269, -86.260519], {icon: icon}).bindPopup(' 110 - 261 ').addTo(rutas);
+        L.marker([12.126108, -86.255713], {icon: icon}).bindPopup(' 110 - 261 ').addTo(rutas);
+        L.marker([12.124765, -86.253106], {icon: icon}).bindPopup(' 104 - 163- 110 -119  ').addTo(rutas);
+        L.marker([12.124398, -86.248171], {icon: icon}).bindPopup(' 104 - 108 - 110 - 106- 117 -119 ').addTo(rutas);
+        L.marker([12.121440, -86.243461], {icon: icon}).bindPopup(' 118- 109- 261  ').addTo(rutas);
+        L.marker([12.130944, -86.240875], {icon: icon}).bindPopup(' 103 - 101 - 167 - 119 ').addTo(rutas);
+        L.marker([12.139922, -86.236841], {icon: icon}).bindPopup(' 101 - 112 - 133 ').addTo(rutas);
+        L.marker([12.149089, -86.247945], {icon: icon}).bindPopup(' 101 - 6 - 108  ').addTo(rutas);
+        L.marker([12.147023, -86.247806], {icon: icon}).bindPopup(' 101 - 118 ').addTo(rutas);
+        L.marker([12.144726, -86.268030], {icon: icon}).bindPopup(' 109 - 115 - 133 -167 ').addTo(rutas);
+        L.marker([12.149289, -86.273963], {icon: icon}).bindPopup(' 133 - 112 - 109 ').addTo(rutas);
+        L.marker([12.151103, -86.272976], {icon: icon}).bindPopup(' 109 - 118 - 101 - 116 ').addTo(rutas);
+        L.marker([12.144527, -86.274134], {icon: icon}).bindPopup(' 101 - 118 - 116 ').addTo(rutas);
+        L.marker([12.142765, -86.275540], {icon: icon}).bindPopup(' 101 - 118 - 116 ').addTo(rutas);
+        L.marker([12.139702, -86.275658], {icon: icon}).bindPopup(' 101 - 107 - 117 ').addTo(rutas);
+        L.marker([12.134374, -86.269382], {icon: icon}).bindPopup(' 119 - 118 - 158 ').addTo(rutas);
+        L.marker([12.134195, -86.278007], {icon: icon}).bindPopup(' 119 - 158 ').addTo(rutas);
+        L.marker([12.132979, -86.278426], {icon: icon}).bindPopup(' 104 - 158 ').addTo(rutas);
+        L.marker([12.134038, -86.272858], {icon: icon}).bindPopup(' 119 - 110 - 104 - 261 ').addTo(rutas);
+        L.marker([12.139723, -86.299766], {icon: icon}).bindPopup(' 119 - 123- 116 ').addTo(rutas);
+        L.marker([12.145282, -86.294004], {icon: icon}).bindPopup(' 119 - 6 ').addTo(rutas);
+        L.marker([12.145366, -86.297051], {icon: icon}).bindPopup(' 112 - 109 - 115 ').addTo(rutas);
+        L.marker([12.147778, -86.298682], {icon: icon}).bindPopup(' 133 - 113 - 115 ').addTo(rutas);
+        L.marker([12.151009, -86.302523], {icon: icon}).bindPopup(' 112 ').addTo(rutas);
+        L.marker([12.157155, -86.286623], {icon: icon}).bindPopup(' 119 - 120 - 103 ').addTo(rutas);
+        L.marker([12.157103, -86.281677], {icon: icon}).bindPopup(' 102 - 110 - 120 ').addTo(rutas);
+        L.marker([12.155456, -86.279263], {icon: icon}).bindPopup(' 109 - 112 - 167 ').addTo(rutas);
+        L.marker([12.154984, -86.274167], {icon: icon}).bindPopup(' 109 - 112 - 167 ').addTo(rutas);
+        L.marker([12.154942, -86.272804], {icon: icon}).bindPopup(' 109 - 112 - 167 ').addTo(rutas);
+        L.marker([12.157176, -86.273673], {icon: icon}).bindPopup(' 109 - 112 - 167 ').addTo(rutas);
+        L.marker([12.156316, -86.271688], {icon: icon}).bindPopup(' 109 - 112 - 167 ').addTo(rutas);
+        L.marker([12.155529, -86.272192], {icon: icon}).bindPopup(' 109 - 112 - 167 ').addTo(rutas);
+        L.marker([12.158424, -86.272611], {icon: icon}).bindPopup(' 109 - 118 - 101 - 116 ').addTo(rutas);
+        L.marker([12.160029, -86.279649], {icon: icon}).bindPopup(' 109 - 112 - 167 ').addTo(rutas);
+        L.marker([12.159200, -86.274327], {icon: icon}).bindPopup(' 109 - 112 - 167 ').addTo(rutas);
+        L.marker([12.160658, -86.273040], {icon: icon}).bindPopup(' 109 - 112 - 167 ').addTo(rutas);
+        L.marker([12.162514, -86.275357], {icon: icon}).bindPopup(' 109 - 112 ').addTo(rutas);
+        L.marker([12.155802, -86.264446], {icon: icon}).bindPopup(' 109 - 112 - 123 ').addTo(rutas);
+        L.marker([12.153553, -86.268709], {icon: icon}).bindPopup(' 109 - 112 - 167 - 115 ').addTo(rutas);
+        L.marker([12.151592, -86.270726], {icon: icon}).bindPopup(' 109 - 112 - 167 ').addTo(rutas);
+        L.marker([12.155776, -86.274514], {icon: icon}).bindPopup(' 109 - 101 - 116 - 118 ').addTo(rutas);
+        L.marker([12.147910, -86.274052], {icon: icon}).bindPopup(' 109 - 101 - 118 ').addTo(rutas);
+        L.marker([12.147218, -86.275855], {icon: icon}).bindPopup(' 101 - 118 - 116 ').addTo(rutas);
+        L.marker([12.142875, -86.276005], {icon: icon}).bindPopup(' 108 - 123 ').addTo(rutas);
+        L.marker([12.144585, -86.284813], {icon: icon}).bindPopup(' 119 - 101 - 118 ').addTo(rutas);
+        L.marker([12.143715, -86.285843], {icon: icon}).bindPopup(' 110 - 261 ').addTo(rutas);
+        L.marker([12.123704, -86.254911], {icon: icon}).bindPopup(' 119 - 101 ').addTo(rutas);
+        L.marker([12.124638, -86.257979], {icon: icon}).bindPopup(' 119 - 101 ').addTo(rutas);
+        L.marker([12.120778, -86.258172], {icon: icon}).bindPopup(' 103 - 114 - 110 - 120 ').addTo(rutas);
+        L.marker([12.117830, -86.256573], {icon: icon}).bindPopup(' 119 - 103 - 114 - 104 - 108 ').addTo(rutas);
+        L.marker([12.119687, -86.260200], {icon: icon}).bindPopup(' 106 ').addTo(rutas);
+        L.marker([12.121176, -86.263601], {icon: icon}).bindPopup(' 103 - 114 - 119 - 110 - 120 - 210 ').addTo(rutas);
+        L.marker([12.123967, -86.270778], {icon: icon}).bindPopup(' 110 - 104 - 108 ').addTo(rutas);
+        L.marker([12.123673, -86.252979], {icon: icon}).bindPopup(' 119 - 110 - 120 ').addTo(rutas);
+        L.marker([12.122907, -86.249031], {icon: icon}).bindPopup(' 119 - 110 ').addTo(rutas);
+        L.marker([12.122393, -86.245780], {icon: icon}).bindPopup(' 118 - 261 - 109 ').addTo(rutas);
+        L.marker([12.128246, -86.242465], {icon: icon}).bindPopup(' 119 - 110- 109 ').addTo(rutas);
+        L.marker([12.124955, -86.237963], {icon: icon}).bindPopup(' 101 - 116 ').addTo(rutas);
+        L.marker([12.127766, -86.236354], {icon: icon}).bindPopup(' 119 - 110 ').addTo(rutas);
+        L.marker([12.126979, -86.232159], {icon: icon}).bindPopup(' 104 ').addTo(rutas);
+        L.marker([12.131143, -86.229552], {icon: icon}).bindPopup(' 116 - 123 - 118 ').addTo(rutas);
+        L.marker([12.133524, -86.231601], {icon: icon}).bindPopup(' 103 - 112 - 167 - 168 ').addTo(rutas);
+        L.marker([12.145870, -86.233998], {icon: icon}).bindPopup(' 116 - 112 ').addTo(rutas);
+        L.marker([12.147582, -86.234261], {icon: icon}).bindPopup(' 109 - 112 - 167 ').addTo(rutas);
+        L.marker([12.147448, -86.231810], {icon: icon}).bindPopup(' 119 - 118 - 104 ').addTo(rutas);
+        L.marker([12.133578, -86.282150], {icon: icon}).bindPopup(' 119 - 113 - 118 ').addTo(rutas);
+        L.marker([12.137990, -86.291500], {icon: icon}).bindPopup(' 6 - 167 ').addTo(rutas);
+        L.marker([12.137324, -86.299165], {icon: icon}).bindPopup(' 6 - 167 ').addTo(rutas);
+        L.marker([12.137874, -86.301186], {icon: icon}).bindPopup(' 261 - 103 - 114 ').addTo(rutas);
+        L.marker([12.139027, -86.300929], {icon: icon}).bindPopup(' 111 - 168 ').addTo(rutas);
+        L.marker([12.140160, -86.295371], {icon: icon}).bindPopup(' 119 - 261 ').addTo(rutas);
+        L.marker([12.142510, -86.307216], {icon: icon}).bindPopup(' 119 - 125 - 167 ').addTo(rutas);
+        L.marker([12.141041, -86.294878], {icon: icon}).bindPopup(' 119 - 101 ').addTo(rutas);
+        L.marker([12.139678, -86.285522], {icon: icon}).bindPopup(' 119 - 101 ').addTo(rutas);
+        L.marker([12.141054, -86.242557], {icon: icon}).bindPopup(' 103 - 105 - 118 - 111 - 120 ').addTo(rutas);
+		L.marker([12.139272, -86.246816], {icon: icon}).bindPopup(' 103 - 114 - 105 - 163 - 111 - 120 ').addTo(rutas);
+		L.marker([12.141966, -86.249753], {icon: icon}).bindPopup(' 103 - 114 - 105 - 168 - 111 - 120  ').addTo(rutas);
+		L.marker([12.141811, -86.248942], {icon: icon}).bindPopup('103 - 105 - 118 - 111  ').addTo(rutas);
+		L.marker([12.141575, -86.249438], {icon: icon}).bindPopup(' 103 - 114 - 117 - 119 -110 - 120 -102 ').addTo(rutas);
+		L.marker([12.140555, -86.249472], {icon: icon}).bindPopup(' 111  ').addTo(rutas);
+		L.marker([12.139667, -86.250740], {icon: icon}).bindPopup('103 - 114 - 117 - 119 -111 - 120 - 163 ').addTo(rutas);
+		L.marker([12.143653, -86.246211], {icon: icon}).bindPopup(' 103 - 118 ').addTo(rutas);
+		L.marker([12.144561, -86.248622], {icon: icon}).bindPopup(' 111 - 102 - 168 ').addTo(rutas);
+		L.marker([12.145239, -86.251127], {icon: icon}).bindPopup(' 168 - 118 - 167 - 102 ').addTo(rutas);
+		L.marker([12.142094, -86.251278], {icon: icon}).bindPopup(' 111 - 118 ').addTo(rutas);
+		L.marker([12.141377, -86.251334], {icon: icon}).bindPopup('105 - 120 -163  ').addTo(rutas);
+		L.marker([12.151793, -86.236134], {icon: icon}).bindPopup(' 108 - 120 - 111 ').addTo(rutas);
+		L.marker([12.151045, -86.237198], {icon: icon}).bindPopup(' 108 - 120 - 111 ').addTo(rutas);
+		L.marker([12.151963, -86.242080], {icon: icon}).bindPopup(' 101  ').addTo(rutas);
+		L.marker([12.152753, -86.250422], {icon: icon}).bindPopup(' 108 - 120 ').addTo(rutas);
+		L.marker([12.145284, -86.249827], {icon: icon}).bindPopup(' 102 - 168 - 111 - 116 ').addTo(rutas);
+		L.marker([12.145537, -86.249312], {icon: icon}).bindPopup(' 102 - 168 - 111 - 116 ').addTo(rutas);
+		L.marker([12.134575, -86.247493], {icon: icon}).bindPopup(' 103 - 114 - 105 - 120 - 163 ').addTo(rutas);
+		L.marker([12.137724, -86.255623], {icon: icon}).bindPopup(' 102 - 105 - 120 ').addTo(rutas);
+		L.marker([12.137240, -86.255213], {icon: icon}).bindPopup(' 102 - 105 - 120 ').addTo(rutas);
+		L.marker([12.139052, -86.238180], {icon: icon}).bindPopup(' 102 - 168 - 167 ').addTo(rutas);
+		L.marker([12.142247, -86.237853], {icon: icon}).bindPopup(' 102 - 168 - 167 ').addTo(rutas);
+		L.marker([12.144585, -86.244196], {icon: icon}).bindPopup('103 - 118 - 167  ').addTo(rutas);
+		L.marker([12.141868, -86.246757], {icon: icon}).bindPopup('118   ').addTo(rutas);
+		L.marker([12.139919, -86.245909], {icon: icon}).bindPopup(' 103 - 105 - 102 - 111 ').addTo(rutas);
+		L.marker([12.140209, -86.265607], {icon: icon}).bindPopup('111 - 168 - 102  ').addTo(rutas);
+		L.marker([12.137221, -86.260863], {icon: icon}).bindPopup(' 102 - 111 - 168 ').addTo(rutas);
+		L.marker([12.137108, -86.259553], {icon: icon}).bindPopup(' 102 - 104  ').addTo(rutas);
+		L.marker([12.149043, -86.245921], {icon: icon}).bindPopup(' 168 - 114 - 103 - 105 - 120 -102 ').addTo(rutas);
+		L.marker([12.148128, -86.243354], {icon: icon}).bindPopup('168 -102  ').addTo(rutas);
+		L.marker([12.149404, -86.241823], {icon: icon}).bindPopup(' 102 - 114 - 168 - 120 - 154 ').addTo(rutas);
+		L.marker([12.148913, -86.244785], {icon: icon}).bindPopup(' 102 - 114 - 168 - 120 - 116 ').addTo(rutas);
+		L.marker([12.152706, -86.250146], {icon: icon}).bindPopup(' 101 - 120 ').addTo(rutas);
+        //fin Rutas
+
+
+		//recibimos los cambios en la ruta
+		$(document).ready(function () {
+			$('#punto').on("select2:select", function (e) {
+				//console.log($(this).val());
+				//vemos que selecciona el usuario
+				var opt = ($(this).val())
+				console.log(opt)
+
+				switch (opt){
+					case 'UCA':
+						k = {
+							lat: lugares.uca.lat, 
+							lng: lugares.uca.lng,
+						}
+						console.log(lugares.uca.ruta);
+						break;
+					case 'MC':
+						k = {
+							lat: lugares.mc.lat,
+							lng: lugares.mc.lng
+						}
+						break;
+					case 'EC':
+						k = {
+							lat: lugares.ec.lat,
+							lng: lugares.ec.lng
+						}
+						break;
+					case 'PJ':
+						k = {
+							lat: lugares.pj.lat,
+							lng: lugares.pj.lng
+						}
+						break;
+					case 'Chele':
+						k = {
+							lat: lugares.chele.lat,
+							lng: lugares.chele.lng
+						}
+						break;
+					case 'PellasA':
+						k = {
+							lat: lugares.pellasa.lat,
+							lng: lugares.pellasa.lng
+						}
+						break;
+					case 'UJ2':
+						k = {
+							lat: lugares.uj2.lat,
+							lng: lugares.uj2.lng
+						}	
+						break;
+					case 'ITC':
+						k = {
+							lat: lugares.itc.lat,
+							lng: lugares.itc.lng
+						}
+						break;					
+					case 'IDB':
+						k = {
+							lat: lugares.idb.lat,
+							lng: lugares.idb.lng
+						}
+						break;					
+					case 'CO':
+						k = {
+							lat: lugares.co.lat,
+							lng: lugares.co.lng
+						}
+						break;					
+					case 'INETER':
+						k = {
+							lat: lugares.ineter.lat,
+							lng: lugares.ineter.lng
+						}
+						break;					
+					case 'CMG':
+						k = {
+							lat: lugares.cmg.lat,
+							lng: lugares.cmg.lng
+						}
+						break;					
+					case 'PaliR':
+						k = {
+							lat: lugares.palir.lat,
+							lng: lugares.palir.lng
+						}
+						break;					
+					case 'Servigob':
+						k = {
+							lat: lugares.servigob.lat,
+							lng: lugares.servigob.lng
+						}
+						break;					
+					case 'MHCP':
+						k = {
+							lat: lugares.mhcp.lat,
+							lng: lugares.mhcp.lng
+						}
+						break;					
+					case 'PI':
+						k = {
+							lat: lugares.pi.lat,
+							lng: lugares.pi.lng
+						}
+						break;					
+					case 'CienN':
+						k = {
+							lat: lugares.cienn.lat,
+							lng: lugares.cienn.lng
+						}
+						break;					
+					case 'ENDM':
+						k = {
+							lat: lugares.endm.lat,
+							lng: lugares.endm.lng
+						}
+						break;					
+					case 'Pricemart':
+						k = {
+							lat: lugares.pricemart.lat,
+							lng: lugares.pricemart.lng
+						}
+						break;					
+					case 'HM':
+						k = {
+							lat: lugares.hm.lat,
+							lng: lugares.hm.lng
+						}
+						break;					
+					case 'Chaman':
+						k = {
+							lat: lugares.chaman.lat,
+							lng: lugares.chaman.lng
+						}
+						break;					
+					case 'UCCE':
+						k = {
+							lat: lugares.ucce.lat,
+							lng: lugares.ucce.lng
+						}
+						break;					
+					case 'IICM':
+						k = {
+							lat: lugares.iicm.lat,
+							lng: lugares.iicm.lng
+						}
+						break;					
+					case 'CML':
+						k = {
+							lat: lugares.cml.lat,
+							lng: lugares.cml.lng
+						}
+						break;					
+					case 'CNM':
+						k = {
+							lat: lugares.cnd.lat,
+							lng: lugares.cnd.lng
+						}
+						break;					
+					case 'IEA':
+						k = {
+							lat: lugares.iea.lat,
+							lng: lugares.iea.lng
+						}
+						break;					
+					case 'PSA':
+						k = {
+							lat: lugares.psa.lat,
+							lng: lugares.psa.lng
+						}
+						break;					
+					case 'Coop25F':
+						k = {
+							lat: lugares.coop25f.lat,
+							lng: lugares.coop25f.lng
+						}
+						break;					
+					case 'PSS':
+						k = {
+							lat: lugares.pss.lat,
+							lng: lugares.pss.lng
+						}
+						break;					
+					case 'Telcor':
+						k = {
+							lat: lugares.telcor.lat,
+							lng: lugares.telcor.lng
+						}
+						break;					
+					case 'Cinem':
+						k = {
+							lat: lugares.cinem.lat,
+							lng: lugares.cinem.lng
+						}
+						break;				
+					case 'Cmaiz':
+						k = {
+							lat: lugares.cmaiz.lat,
+							lng: lugares.cmaiz.lng
+						}
+						break;				
+					case 'Catedral':
+						k = {
+							lat: lugares.catedral.lat,
+							lng: lugares.catedral.lng
+						}
+						break;				
+					case 'TeatroRD':
+						k = {
+							lat: lugares.teatrord.lat,
+							lng: lugares.teatrord.lng
+						}
+						break;				
+					case 'IBR':
+						k = {
+							lat: lugares.ibr.lat,
+							lng: lugares.ibr.lng
+						}
+						break;				
+					case 'PlazaJ2':
+						k = {
+							lat: lugares.plazaj2.lat,
+							lng: lugares.plazaj2.lng
+						}
+						break;				
+					case 'Malecon':
+						k = {
+							lat: lugares.malecon.lat,
+							lng: lugares.malecon.lng
+						}
+						break;				
+					case 'PuertoSA':
+						k = {
+							lat: lugares.puertosa.lat,
+							lng: lugares.puertosa.lng
+						}
+						break;				
+					case 'ENMAP':
+						k = {
+							lat: lugares.enmap.lat,
+							lng: lugares.enmap.lng
+						}
+						break;				
+					case 'CJCM':
+						k = {
+							lat: lugares.cjcm.lat,
+							lng: lugares.cjcm.lng
+						}
+						break;				
+					case 'ParqueLAVF':
+						k = {
+							lat: lugares.parquelavf.lat,
+							lng: lugares.parquelavf.lng
+						}
+						break;				
+					case 'Correos':
+						k = {
+							lat: lugares.correos.lat,
+							lng: lugares.correos.lng
+						}
+						break;				
+					case 'Arboretum':
+						k = {
+							lat: lugares.arboretum.lat,
+							lng: lugares.arboretum.lng
+						}
+						break;				
+					case 'CSP':
+						k = {
+							lat: lugares.csp.lat,
+							lng: lugares.csp.lng
+						}
+						break;				
+					case 'INT':
+						k = {
+							lat: lugares.int.lat,
+							lng: lugares.int.lng
+						}
+						break;				
+					case 'UCN':
+						k = {
+							lat: lugares.ucn.lat,
+							lng: lugares.ucn.lng
+						}
+						break;				
+					case 'ParqueEC':
+						k = {
+							lat: lugares.parqueec.lat,
+							lng: lugares.parqueec.lng
+						}
+						break;				
+					case 'ParqueAL':
+						k = {
+							lat: lugares.parqueal.lat,
+							lng: lugares.parqueal.lng
+						}
+						break;				
+					case 'RCN':
+						k = {
+							lat: lugares.rcn.lat,
+							lng: lugares.rcn.lng
+						}
+						break;				
+					case 'Enacal':
+						k = {
+							lat: lugares.enacal.lat,
+							lng: lugares.enacal.lng
+						}
+						break;				
+					case 'APSA':
+						k = {
+							lat: lugares.apsa.lat,
+							lng: lugares.apsa.lng
+						}
+						break;				
+					case 'EMMEx':
+						k = {
+							lat: lugares.emmex.lat,
+							lng: lugares.emmex.lng
+						}
+						break;
+					case 'CA':
+						k = {
+							lat: lugares.ca.lat,
+							lng: lugares.ca.lng
+						}
+						break;
+					case 'CSJ':
+						k = {
+							lat: lugares.csj.lat,
+							lng: lugares.csj.lng
+						}
+						break;
+					case 'Copinic':
+						k = {
+							lat: lugares.copinic.lat,
+							lng: lugares.copinic.lng
+						}
+						break;
+					case 'Lafise':
+						k = {
+							lat: lugares.lafise.lat,
+							lng: lugares.lafise.lng
+						}
+						break;
+					case 'HEMMP':
+						k = {
+							lat: lugares.hemmp.lat,
+							lng: lugares.hemmp.lng
+						}
+						break;
+					case 'CDDB':
+						k = {
+							lat: lugares.cddb.lat,
+							lng: lugares.cddb.lng
+						}
+						break;
+					case 'PMRLM':
+						k = {
+							lat: lugares.pmrlm.lat,
+							lng: lugares.pmrlm.lng
+						}
+						break;
+					case 'MCN':
+						k = {
+							lat: lugares.mcn.lat,
+							lng: lugares.mcn.lng
+						}
+						break;
+					case 'PCHCF':
+						k = {
+							lat: lugares.pchcf.lat,
+							lng: lugares.pchcf.lng
+						}
+						break;
+					case 'CRub':
+						k = {
+							lat: lugares.crub.lat,
+							lng: lugares.crub.lng
+						}
+						break;
+					case 'PUrss':
+						k = {
+							lat: lugares.purss.lat,
+							lng: lugares.purss.lng
+						}
+						break;
+					case 'RBH':
+						k = {
+							lat: lugares.rbh.lat,
+							lng: lugares.rbh.lng
+						}
+						break;
+					case 'CCP':
+						k = {
+							lat: lugares.ccp.lat,
+							lng: lugares.ccp.lng
+						}
+						break;
+					case 'CPCN':
+						k = {
+							lat: lugares.cpcn.lat,
+							lng: lugares.cpcn.lng
+						}
+						break;
+					case 'BacPE':
+						k = {
+							lat: lugares.bacpe.lat,
+							lng: lugares.bacpe.lng
+						}
+						break;
+					case 'PanRaca':
+						k = {
+							lat: lugares.panraca.lat,
+							lng: lugares.panraca.lng
+						}
+						break;
+					case 'HMBS':
+						k = {
+							lat: lugares.hmbs.lat,
+							lng: lugares.hmbs.lng
+						}
+						break;
+					case 'Sitel':
+						k = {
+							lat: lugares.sitel.lat,
+							lng: lugares.sitel.lng
+						}
+						break;
+					case 'INISER':
+						k = {
+							lat: lugares.iniser.lat,
+							lng: lugares.iniser.lng
+						}
+						break;
+					case 'Walmart':
+						k = {
+							lat: lugares.walmart.lat,
+							lng: lugares.walmart.lng
+						}
+						break;
+					case 'CEnacal':
+						k = {
+							lat: lugares.cenacal.lat,
+							lng: lugares.cenacal.lng
+						}
+						break;
+					case 'Eguana':
+						k = {
+							lat: lugares.eguana.lat,
+							lng: lugares.eguana.lng
+						}
+						break;
+					case 'C12':
+						k = {
+							lat: lugares.c12.lat,
+							lng: lugares.c12.lng
+						}
+						break;
+
+					case 'PuenteEE':
+						k = {
+							lat: lugares.puenteee.lat,
+							lng: lugares.puenteee.lng
+						}
+
+					case 'PuenteEP':
+						k = {
+							lat: lugares.puenteep.lat,
+							lng: lugares.puenteep.lng
+						}
+						break;
+					case 'PDH':
+						k = {
+							lat: lugares.pdh.lat,
+							lng: lugares.pdh.lng
+						}
+						break;
+					case 'CIR':
+						k = {
+							lat: lugares.cir.lat,
+							lng: lugares.cir.lng
+						}
+						break;
+					case 'IADSD':
+						k = {
+							lat: lugares.iadsd.lat,
+							lng: lugares.iadsd.lng
+						}
+						break;
+					case 'VSS':
+						k = {
+							lat: lugares.vss.lat,
+							lng: lugares.vss.lng
+						}
+						break;
+					case 'TG':
+						k = {
+							lat: lugares.tg.lat,
+							lng: lugares.tg.lng
+						}
+						break;
+					case 'BP':
+						k = {
+							lat: lugares.bp.lat,
+							lng: lugares.bp.lng
+						}
+						break;
+					case 'CTen':
+						k = {
+							lat: lugares.cten.lat,
+							lng: lugares.cten.lng
+						}
+						break;
+					case 'LitoX':
+						k = {
+							lat: lugares.litox.lat,
+							lng: lugares.litox.lng
+						}
+						break;
+					case 'LabCN':
+						k = {
+							lat: lugares.labcn.lat,
+							lng: lugares.labcn.lng
+						}
+						break;
+					case 'TCortez':
+						k = {
+							lat: lugares.tcortez.lat,
+							lng: lugares.tcortez.lng
+						}
+						break;
+					case 'END':
+						k = {
+							lat: lugares.end.lat,
+							lng: lugares.end.lng
+						}
+						break;
+					case 'DU':
+						k = {
+							lat: lugares.du.lat,
+							lng: lugares.du.lng
+						}
+						break;
+					case 'BanproSL':
+						k = {
+							lat: lugares.banprosl.lat,
+							lng: lugares.banprosl.lng
+						}
+						break;
+					case 'CasaP':
+						k = {
+							lat: lugares.casap.lat,
+							lng: lugares.casap.lng
+						}
+						break;
+					case 'TendeE':
+						k = {
+							lat: lugares.tendee.lat,
+							lng: lugares.tendee.lng
+						}
+						break;
+					case 'TendeO':
+						k = {
+							lat: lugares.tendeo.lat,
+							lng: lugares.tendeo.lng
+						}
+						break;
+					case 'ParqueDor':
+						k = {
+							lat: lugares.parquedor.lat,
+							lng: lugares.parquedor.lng
+						}
+						break;
+					case 'PRLP':
+						k = {
+							lat: lugares.prlp.lat,
+							lng: lugares.prlp.lng
+						}
+						break;
+					case 'CLeos':
+						k = {
+							lat: lugares.cleos.lat,
+							lng: lugares.cleos.lng
+						}
+						break;
+					case 'MerPeri':
+						k = {
+							lat: lugares.merperi.lat,
+							lng: lugares.merperi.lng
+						}
+						break;
+					case 'ICDS':
+						k = {
+							lat: lugares.icds.lat,
+							lng: lugares.icds.lng
+						}
+						break;
+					case 'CSLDM':
+						k = {
+							lat: lugares.csldm.lat,
+							lng: lugares.csldm.lng
+						}
+						break;
+					case 'SumElec':
+						k = {
+							lat: lugares.sumelec.lat,
+							lng: lugares.sumelec.lng
+						}
+						break;
+					case 'PanDJ':
+						k = {
+							lat: lugares.pandj.lat,
+							lng: lugares.pandj.lng
+						}
+						break;
+					case 'HospiCA':
+						k = {
+							lat: lugares.hospica.lat,
+							lng: lugares.hospica.lng
+						}
+						break;
+					case 'ParqueJD':
+						k = {
+							lat: lugares.parquejd.lat,
+							lng: lugares.parquejd.lng
+						}
+						break;
+					case 'CCR':
+						k = {
+							lat: lugares.ccr.lat,
+							lng: lugares.ccr.lng
+						}
+						break;
+					case 'CECNA':
+						k = {
+							lat: lugares.cecna.lat,
+							lng: lugares.cecna.lng
+						}
+						break;
+					case 'UNIJAR':
+						k = {
+							lat: lugares.unijar.lat,
+							lng: lugares.unijar.lng
+						}
+						break;
+					case 'ESanL':
+						k = {
+							lat: lugares.esanl.lat,
+							lng: lugares.esanl.lng
+						}
+						break;
+					case 'PSL':
+						k = {
+							lat: lugares.psl.lat,
+							lng: lugares.psl.lng
+						}
+						break;
+					case 'ULAM':
+						k = {
+							lat: lugares.ulam.lat,
+							lng: lugares.ulam.lng
+						}
+					break;
+					default: 
+						console.log('x_O')
+				}//fin case
+			});//fin funcion select2
+		});//fin funcion
+		
+		//Localizamos al cliente
+		function ubicame(){
+			navigator.geolocation.getCurrentPosition(function(location) {
+				//Conseguimos la lat y lng
+	  			var pos = new L.LatLng(location.coords.latitude, location.coords.longitude);
+
+				var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+						'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+						'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+					mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+
+				var grayscale = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
+					streets = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr});
+
+				//Mapa
+				var map = L.map('map', {
+					center: parseFloat(pos),
+					minZoom: 13,
+					maxZoom: 16,
+					layers: [streets]
+				});
+
+				var baseLayers = {
+					"Calles": streets,
+					"Escala Gris": grayscale
+				};
+
+				var overlays = {
+					"Puntos": puntos,
+					"Rutas": rutas
+				};
+				//Agregamos al mapa
+				L.control.layers(baseLayers, overlays).addTo(map);
+
+				var camino;
+				//mostramos la ruta
+				function mapa(){
+					//Como Llegamos
+					camino = L.Routing.control({
+				            waypoints: [
+				                L.latLng(pos),
+				                L.latLng(k)
+				            ],
+				            routeWhileDragging: true,
+				            geocoder: L.Control.Geocoder.nominatim()						
+				    }).addTo(map);
+				}
+
+				//recibimos los cambios en la ruta
+				$(document).ready(function () {
+					$('#punto').on("select2:select", function (e) {
+						camino.remove()
+						mapa()
+					});
+				});
+
+				mapa()
+			});
+		}//fin Ubicame()
+	</script>
+
+	<!--Otros-->
+	<script>
+		$(document).ready(function() {
+	    	$(".js-example-basic-single").select2();
+		});
+
+		$(document).ready(function(){
+			$("#carousel").carousel({
+				touch: true
+			});	
+			$(".item").click(function(){
+				$("#carousel").carousel(1);
+			});
+			$(".left").click(function(){
+				$("#carousel").carousel("prev");
+			});
+			$(".right").click(function(){
+				$("#carousel").carousel("next");
+			});
+		});
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
